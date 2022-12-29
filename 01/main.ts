@@ -15,7 +15,7 @@ const logError = (e: Error) => {
 };
 
 function readInput() {
-  const input = "./1/input.txt";
+  const input = "./input.txt";
   return pipe(
     IOEither.tryCatch(() => fs.readFileSync(input, { flag: "r" }), toError),
     IOEither.mapLeft(logError)
