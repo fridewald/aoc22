@@ -3,6 +3,9 @@
     "**/.yarn": true,
     "**/.pnp.*": true
   },
+  "files.exclude": {
+    "**/*.js": { "when": "$(basename).ts" }
+  },
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
