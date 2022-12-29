@@ -14,8 +14,7 @@ const logError = (e: Error) => {
   return e;
 };
 
-function readInput() {
-  const input = "./input.txt";
+function readInput(input: string) {
   return pipe(
     IOEither.tryCatch(() => fs.readFileSync(input, { flag: "r" }), toError),
     IOEither.mapLeft(logError)
@@ -51,32 +50,18 @@ const calcSum = (arr: ReadonlyNonEmptyArray<string>) => {
 };
 
 const addUpCalories = (listCal: ReadonlyNonEmptyArray<string>) => {
-  return pipe(
-    listCal,
-    group,
-    RA.map(calcSum)
-  );
+  return pipe(listCal, group, RA.map(calcSum));
 };
 
 const orderAccordingToCalories = (
   listCalSum: ReadonlyNonEmptyArray<number>
 ) => {
-  const sortTuple = pipe(
-    N.Ord,
-    contramap((b: [number, number]) => b[0])
-  );
-  return pipe(
-    listCalSum,
-    RA.mapWithIndex((i, a) => [a, i]),
-    RA.sort(sortTuple),
-    RA.reverse
-  );
+  return pipe(listCalSum, RA.sort(N.Ord), RA.reverse);
 };
 
 function main() {
-  const test = readInput();
   const think = pipe(
-    readInput(),
+    readInput("./input.txt"),
     IOEither.map(parseInput),
     IOEither.map(addUpCalories),
     IOEither.map(orderAccordingToCalories)
