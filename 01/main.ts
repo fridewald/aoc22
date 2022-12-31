@@ -1,29 +1,10 @@
 import * as IOEither from "fp-ts/IOEither";
-import { toError } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
-import { contramap } from "fp-ts/lib/Ord";
 import { ReadonlyNonEmptyArray } from "fp-ts/lib/ReadonlyNonEmptyArray";
 import * as N from "fp-ts/number";
 import * as RA from "fp-ts/ReadonlyArray";
 import * as S from "fp-ts/string";
-import * as fs from "fs";
-
-const logError = (e: Error) => {
-  console.log("There is an error");
-  console.log(e);
-  return e;
-};
-
-function readInput(input: string) {
-  return pipe(
-    IOEither.tryCatch(() => fs.readFileSync(input, { flag: "r" }), toError),
-    IOEither.mapLeft(logError)
-  );
-}
-const printBuffer = (fileBuffer: Buffer) => {
-  console.log(fileBuffer.toString());
-  return IOEither.of(fileBuffer);
-};
+import { readInput } from "../utils/readInput";
 
 const parseInput = (fileBuffer: Buffer) => {
   return pipe(fileBuffer.toString(), S.split("\n"));
